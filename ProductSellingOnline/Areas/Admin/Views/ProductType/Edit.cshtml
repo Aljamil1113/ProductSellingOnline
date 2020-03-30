@@ -1,0 +1,33 @@
+﻿@model ProductSellingOnline.Models.ProductType
+
+<h4>ProductType</h4>
+<hr />
+
+<div class="level-left">
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <div class="field level-item">
+            <label asp-for="Name" class="label"></label>
+            <div class="control">
+                <input asp-for="Name" class="input" placeholder="Product Type" />
+                <span asp-validation-for="Name" class="help is-danger"> </span>
+            </div>
+        </div>
+
+        <div class="field is-grouped are-medium">
+            <div class="control">
+                <input type="submit" value="Save" class="button is-primary" />
+            </div>
+            <div class="control">
+                <a asp-action="Index" class="button is-light">Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

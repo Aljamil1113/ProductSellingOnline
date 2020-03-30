@@ -4,10 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h2><strong>Index</strong></h2>
-
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="button is-link" asp-action="Create"><i class="fas fa-plus"></i>Create New</a>
 </p>
 
 <div class="level-left">
@@ -28,11 +26,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
+                        <partial name="_TableButtonPartial" model="item.Id" />
                     </tr>
                 }
             </tbody>

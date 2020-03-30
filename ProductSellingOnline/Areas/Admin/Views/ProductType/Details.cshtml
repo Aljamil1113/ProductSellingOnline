@@ -1,0 +1,24 @@
+﻿@model ProductSellingOnline.Models.ProductType
+
+<div>
+    <h4>ProductType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <div class="field is-grouped are-medium">
+        <div class="control">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="button is-primary">Edit</a>
+        </div>
+        <div class="control">
+            <a asp-action="Index" class="button is-light">Back to List</a>
+        </div>
+    </div>
+</div>

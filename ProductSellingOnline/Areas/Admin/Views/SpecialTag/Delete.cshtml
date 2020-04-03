@@ -1,4 +1,7 @@
-﻿@model ProductSellingOnline.Models.ProductType
+﻿@model SpecialTag
+@{
+    ViewData["Title"] = "Delete";
+}
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
@@ -17,11 +20,12 @@
         <input type="hidden" asp-for="Id" />
         <div class="field is-grouped are-medium">
             <div class="control">
-                <input type="submit" value="Delete" class="button is-danger" /> 
+                <input type="submit" value="Delete" class="button is-danger" />
             </div>
             <div class="control">
                 <a asp-action="Index" class="button is-light">Back to List</a>
             </div>
-        </div>           
+        </div>
     </form>
 </div>
+

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<SpecialTag>
+@{ 
+    ViewData["Title"] = "Index";
+}
+
+<div class="block">
+    <a asp-action="Create" class="button is-link"><i class="fas fa-plus"></i> New Special Tag</a> 
+</div>
+
+<div class="block">
+    <table class="table is-striped is-hoverable is-narrow is-fullwidth">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <partial name="_TableButtonPartial" model="item.Id" />
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

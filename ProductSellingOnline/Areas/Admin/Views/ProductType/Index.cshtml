@@ -1,16 +1,19 @@
-﻿@model IEnumerable<ProductSellingOnline.Models.ProductType>
+﻿@model IEnumerable<ProductType>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<p>
-    <a class="button is-link" asp-action="Create"><i class="fas fa-plus"></i>Create New</a>
-</p>
+<div class="block">
+    <p>
+        <a class="button is-link" asp-action="Create"><i class="fas fa-plus"></i>Create New</a>
+    </p>
+</div>
 
-<div class="level-left">
-    <div class="table-container level-item">
-        <table class="table" >
+
+<div class="block">
+    <div class="table-container">
+        <table class="table is-striped is-hoverable is-narrow is-fullwidth">
             <thead>
                 <tr>
                     <th>
@@ -31,7 +34,7 @@
                 }
             </tbody>
         </table>
-    </div>
-</div>
+    </div>       
+ </div>
 
 

@@ -1,13 +1,13 @@
 ﻿@model ProductSellingOnline.Models.ProductType
 
-<h4>ProductType</h4>
+<h4 class="title is-4">Product Type</h4>
 <hr />
 
-<div class="level-left">
+<div class="field">
     <form asp-action="Create" method="post">
         <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
         <input type="hidden" asp-for="Id" />
-        <div class="field level-item">
+        <div class="field">
             <label asp-for="Name" class="label"></label>
             <div class="control">
                 <input asp-for="Name" class="input" placeholder="Product Type" />

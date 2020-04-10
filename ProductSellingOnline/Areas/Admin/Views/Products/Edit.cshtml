@@ -1,0 +1,101 @@
+﻿@model ProductsViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2 class="title is-4">Edit Product</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Products.Id" />
+
+    <div class="field is-horizontal">
+        <div class="column is-8">
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    <label class="label" asp-for="Products.Name">Product Name</label>
+                </div>
+                <div class="control column is-8">
+                    <input class="input is-focused" type="text" asp-for="@Model.Products.Name" />
+                    <span asp-validation-for="Products.Name" class="help is-danger"> </span>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    <label class="label" asp-for="Products.Price">Product Price</label>
+                </div>
+                <div class="control column is-8">
+                    <input class="input is-focused" type="text" asp-for="@Model.Products.Price" />
+                    <span asp-validation-for="Products.Price" class="help is-danger"> </span>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    <label class="label" asp-for="Products.Image">Product Image</label>
+                </div>
+                <div class="control column is-8">
+                    <input class="input is-focused" type="file" asp-for="@Model.Products.Image" />
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    <label class="label" asp-for="ProductTypes"></label>
+                </div>
+                <div class="control column is-8">
+                    <div class="select  is-info">
+                        <select asp-for="@Model.Products.ProductTypeId" asp-items="Model.ProductTypes.ToSelectListItems(Model.Products.ProductTypeId)"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    <label class="label" asp-for="SpecialTags"></label>
+                </div>
+                <div class="control column is-8">
+                    <div class="select is-info">
+                        <select asp-for="@Model.Products.SpecialTagId" asp-items="Model.SpecialTags.ToSelectListItems(Model.Products.SpecialTagId)"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    <label class="label" asp-for="Products.ShadeColor"></label>
+                </div>
+                <div class="control column is-8">
+                    <input class="input is-focused" type="text" asp-for="@Model.Products.ShadeColor" />
+                    <span asp-validation-for="Products.ShadeColor" class="help is-danger"> </span>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control column is-8">
+                    <label class="checkbox" asp-for="Products.Available" style="font-family:'Arial'">
+                        <input type="checkbox" asp-for="@Model.Products.Available" />
+                        Available?
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-1">
+
+        </div>
+        <div class="col-3">
+            <figure class="image is-fullwidth">
+                <img src="@Model.Products.Image" style="border-radius:5px; border:1px solid #bbb9b9" />
+            </figure>          
+        </div>
+    </div>
+    <div class="field is-grouped">
+        <div class="control">
+            <input type="submit" value="Save" class="button is-primary" />
+        </div>
+        <div class="control">
+            <a asp-action="Index" class="button is-light">Back to List</a>
+        </div>
+    </div>
+</form>

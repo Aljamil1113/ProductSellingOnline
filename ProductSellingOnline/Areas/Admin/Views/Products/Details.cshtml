@@ -1,0 +1,89 @@
+﻿@model ProductsViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2 class="title is-4">Product Details</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Products.Id" />
+    <div class="field is-horizontal">
+        <div class="column is-8">
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    <label class="label" asp-for="Products.Name">Product Name</label>
+                </div>
+                <div class="control column is-8">
+                    <input class="input is-focused" type="text" asp-for="@Model.Products.Name" readonly/>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    <label class="label" asp-for="Products.Price">Product Price</label>
+                </div>
+                <div class="control column is-8">
+                    <input class="input is-focused" type="text" asp-for="@Model.Products.Price" readonly/>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    <label class="label" asp-for="ProductTypes">Product Types</label>
+                </div>
+                <div class="control column is-8">
+                    <div class="select  is-info">
+                        <select asp-for="@Model.Products.ProductTypeId" asp-items="Model.ProductTypes.ToSelectListItems(Model.Products.ProductTypeId)" disabled></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    <label class="label" asp-for="SpecialTags">Special Tags</label>
+                </div>
+                <div class="control column is-8">
+                    <div class="select is-info">
+                        <select asp-for="@Model.Products.SpecialTagId" asp-items="Model.SpecialTags.ToSelectListItems(Model.Products.SpecialTagId)" disabled></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    <label class="label" asp-for="Products.ShadeColor"></label>
+                </div>
+                <div class="control column is-8">
+                    <input class="input is-focused" type="text" asp-for="@Model.Products.ShadeColor" readonly/>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control column is-8">
+                    <label class="checkbox" asp-for="Products.Available" style="font-family:'Arial'">
+                        <input type="checkbox" asp-for="@Model.Products.Available" disabled/>
+                        Available?
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-1">
+
+        </div>
+        <div class="col-3">
+            <figure class="image is-fullwidth">
+                <img src="@Model.Products.Image" style="border-radius:5px; border:1px solid #bbb9b9" />
+            </figure>
+        </div>
+    </div>
+    <div class="field is-grouped">
+        <div class="control">
+            <a asp-action="Edit" asp-route-Id="@Model.Products.Id" class="button is-primary">Edit</a>
+        </div>
+        <div class="control">
+            <a asp-action="Index" class="button is-light">Back to List</a>
+        </div>
+    </div>
+</form>
+
+

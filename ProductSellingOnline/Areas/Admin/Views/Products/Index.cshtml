@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Products>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2 class="title is-4">Product Lists</h2>
+
+<div class="block level-right">
+    <p>
+        <a class="button is-link" asp-action="Create"><i class="fas fa-plus"></i>Create New</a>
+    </p>
+</div>
+
+<table class="table is-striped is-hoverable is-narrow is-fullwidth">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Price)</th>
+            <th>@Html.DisplayNameFor(model => model.Available)</th>
+            <th>@Html.DisplayNameFor(model => model.ProductType)</th>
+            <th>@Html.DisplayNameFor(model => model.SpecialTag)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.Name</td>
+            <td>@String.Format("{0:C}", item.Price)</td>
+            <td><input type="checkbox" asp-for="@item.Available" disabled/></td>
+            <td>@item.ProductType.Name</td>
+            <td>
+                @if (!item.SpecialTag.Name.Equals("---NONE---"))
+                {
+                    @item.SpecialTag.Name
+                }
+            </td>
+            <td>
+                <partial name="_TableButtonPartial" model="@item.Id" />
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+

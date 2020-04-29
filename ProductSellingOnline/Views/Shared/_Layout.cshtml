@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@using ProductSellingOnline.Extensions
+@using ProductSellingOnline.Utility
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -38,6 +44,22 @@
                             @*<a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
         <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="About">About</a>
         <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>*@
+                            @if(HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart") != null)
+                                {
+                                    <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index" class="navbar-item">
+                                        <i class="fas fa-shopping-cart"></i> &nbsp;
+                                        @{
+                                            var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart").Count;
+                                        }
+                                        (@count)
+                                    </a>
+                                }
+                                else{
+                                    <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index" class="navbar-item">
+                                        <i class="fas fa-shopping-cart"></i> &nbsp;
+                                        (0)
+                                    </a>
+                                }
                         </div>
                         <div class="navbar-end">
                             @*<partial name="_LoginPartial" />*@

@@ -1,10 +1,15 @@
 @model Products
-@{
+@using ProductSellingOnline.Extensions
+@using Microsoft.AspNetCore.Http
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@* @{
     ViewData["Title"] = "Details";
 }
+ *@
 
-<form method="post" enctype="multipart/form-data">
-    <input type="hidden" asp-for="Id" />
+<form method="post" >
     <div class="field is-horizontal">
         <div class="column is-8">
             <div class="field is-horizontal">
@@ -30,7 +35,7 @@
                     <label class="label" asp-for="ProductType">Product Types</label>
                 </div>
                 <div class="control column is-8">
-                    <input class="input is-focused" type="text" asp-for="ProductType" readonly/>
+                    <input class="input is-focused" type="text" asp-for="ProductType.Name" readonly/>
                 </div>
             </div>
 
@@ -40,7 +45,7 @@
                 </div>
                 <div class="control column is-8">
                     <div class="select is-info">
-                        <input class="input is-focused" type="text" asp-for="SpecialTag" readonly/>
+                        <input class="input is-focused" type="text" asp-for="SpecialTag.Name" readonly/>
                     </div>
                 </div>
             </div>
@@ -62,20 +67,40 @@
                     </label>
                 </div>
             </div>
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                </div>
+                <div class="control column is-8">
+                    @{
+                        bool isInBag = false;
+                        List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart");
+                        
+                        if(lstCart != null && lstCart.Contains(Model.Id))
+                        {
+                            isInBag = true;
+                        }
+                    }
+                    @if(isInBag)
+                    {
+                        <button type="submit" value="Remove Bag" asp-action="Remove" class="button is-danger form-control" asp-route-Id="@Model.Id" >Remove From Bag</button> 
+                    }
+                    else
+                    {
+                        <button type="submit" value="Add To Bag" class="button is-primary form-control" asp-route-Id="@Model.Id" >Add To Bag</button> 
+                    }                                    
+                </div>
+            </div>
         </div>
         <div class="col-1">
-
         </div>
         <div class="col-3">
             <figure class="image is-fullwidth">
-                <img src="Image" style="border-radius:5px; border:1px solid #bbb9b9" />
+                <img src="@Model.Image" style="border-radius:5px; border:1px solid #bbb9b9" />
             </figure>
         </div>
     </div>
     <div class="field is-grouped">
-        <div class="control">
-            <a asp-action="Edit" asp-route-Id="Id" class="button is-primary">Edit</a>
-        </div>
+        <input hidden asp-for="Id" />
         <div class="control">
             <a asp-action="Index" class="button is-light">Back to List</a>
         </div>

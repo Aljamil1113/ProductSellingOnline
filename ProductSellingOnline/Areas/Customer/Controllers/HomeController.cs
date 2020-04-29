@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductSellingOnline.Data;
+using ProductSellingOnline.Extensions;
 using ProductSellingOnline.Models;
 
 namespace ProductSellingOnline.Areas.Customer.Controllers
@@ -26,21 +28,38 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details(int? Id)
+        public async Task<IActionResult> Details(int Id)
         {
-            if(Id == null)
-            {
-                return NotFound();
-            }
-
-            var product = db.Products.Include(p => p.ProductType).Include(s => s.SpecialTag).SingleOrDefault(x => x.Id == Id);
-
-            if(product == null)
-            {
-                return NotFound();
-            }
-
+            var product = await db.Products.Include(p => p.ProductType).Include(s => s.SpecialTag).Where(m => m.Id == Id).FirstOrDefaultAsync();
             return View(product);
+        }
+
+        [HttpPost, ActionName("Details")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DetailsPost(int Id)
+        {
+            List<int> lssShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+
+            if(lssShoppingCart == null)
+            {
+                lssShoppingCart = new List<int>();
+            }
+            lssShoppingCart.Add(Id);
+            HttpContext.Session.Set("ssShoppingCart", lssShoppingCart);
+            return RedirectToAction("Index", "Home", new{area = "Customer"});
+        }
+
+        public IActionResult Remove(int id)
+        {
+            List<int> lstShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+            if(lstShoppingCart.Count > 0)
+            {
+                lstShoppingCart.Remove(id);
+            }
+
+            HttpContext.Session.Set("ssShoppingCart", lstShoppingCart);
+
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult About()

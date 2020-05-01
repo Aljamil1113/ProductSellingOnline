@@ -42,8 +42,8 @@
                             <a class="navbar-item" asp-area="Admin" asp-controller="SpecialTag" asp-action="Index">Special Tags</a>
                             <a class="navbar-item" asp-area="Admin" asp-controller="Products" asp-action="Index">Product Items</a>
                             @*<a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-        <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="About">About</a>
-        <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>*@
+                              <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                            <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>*@
                             @if(HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart") != null)
                                 {
                                     <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index" class="navbar-item">

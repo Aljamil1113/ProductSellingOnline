@@ -28,15 +28,15 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int Id)
+        public async Task<IActionResult> Details(int id)
         {
-            var product = await db.Products.Include(p => p.ProductType).Include(s => s.SpecialTag).Where(m => m.Id == Id).FirstOrDefaultAsync();
+            var product = await db.Products.Include(p => p.ProductType).Include(s => s.SpecialTag).Where(m => m.Id == id).FirstOrDefaultAsync();
             return View(product);
         }
 
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DetailsPost(int Id)
+        public IActionResult DetailsPost(int id)
         {
             List<int> lssShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
 
@@ -44,7 +44,7 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
             {
                 lssShoppingCart = new List<int>();
             }
-            lssShoppingCart.Add(Id);
+            lssShoppingCart.Add(id);
             HttpContext.Session.Set("ssShoppingCart", lssShoppingCart);
             return RedirectToAction("Index", "Home", new{area = "Customer"});
         }

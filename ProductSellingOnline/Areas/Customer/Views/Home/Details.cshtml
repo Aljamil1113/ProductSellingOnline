@@ -1,4 +1,4 @@
-@model Products
+@model ProductSellingOnline.Models.Products
 @using ProductSellingOnline.Extensions
 @using Microsoft.AspNetCore.Http
 
@@ -9,7 +9,7 @@
 }
  *@
 
-<form method="post" >
+<form method="post"  asp-controller="Home" asp-action="Details">
     <div class="field is-horizontal">
         <div class="column is-8">
             <div class="field is-horizontal">
@@ -82,11 +82,11 @@
                     }
                     @if(isInBag)
                     {
-                        <button type="submit" value="Remove Bag" asp-action="Remove" class="button is-danger form-control" asp-route-Id="@Model.Id" >Remove From Bag</button> 
+                        <button type="submit" value="Remove Bag" asp-action="Remove" class="button is-danger form-control" asp-route-id="@Model.Id" >Remove From Bag</button> 
                     }
                     else
                     {
-                        <button type="submit" value="Add To Bag" class="button is-primary form-control" asp-route-Id="@Model.Id" >Add To Bag</button> 
+                        <button type="submit" value="Add To Bag" class="button is-primary form-control" asp-route-id="@Model.Id" >Add To Bag</button> 
                     }                                    
                 </div>
             </div>

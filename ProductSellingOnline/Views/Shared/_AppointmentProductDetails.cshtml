@@ -1,0 +1,66 @@
+﻿@model List<ProductSellingOnline.Models.Products>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@if(Model.Count > 0)
+{
+<table class="table">
+    <tr>
+        <th style="text-align:center; width:20%"></th>
+        <th style="text-align:center;">
+            <label asp-for="@Model.FirstOrDefault().Name"></label>
+        </th>
+        <th style="text-align:center;">
+            <label asp-for="@Model.FirstOrDefault().Price"></label>
+        </th>
+        <th style="text-align:center;">
+            <label asp-for="@Model.FirstOrDefault().ShadeColor"></label>
+        </th>
+        <th style="text-align:center;">
+            <label asp-for="@Model.FirstOrDefault().ProductType.Name">Product Type</label>
+        </th>
+        <th style="text-align:center;"></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr style="padding: 50px;">
+            <td>
+                <a asp-controller="Home" asp-area="Customer" asp-action="Details" asp-route-id="@item.Id">
+                    <img src="@item.Image" width="100%" style="margin: auto; display:block; border-radius:5px" />
+                </a>
+            </td>
+            <td style="text-align:center">
+                @Html.DisplayFor(c => item.Name)
+            </td>
+            <td style="text-align:center">
+                @Html.DisplayFor(c => item.Price)
+            </td>
+            <td style="text-align:center">
+                @Html.DisplayFor(c => item.ShadeColor)
+            </td>
+            <td style="text-align:center">
+                @Html.DisplayFor(c => item.ProductType.Name)
+            </td>
+            <td>
+            </td>
+        </tr>
+
+    }
+</table>
+}
+else
+{
+<section class="hero is-danger">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                No items added to the shopping cart...
+            </h1>
+            <h2 class="subtitle">
+                No appointments if no items...
+            </h2>
+        </div>
+    </div>
+</section>
+}

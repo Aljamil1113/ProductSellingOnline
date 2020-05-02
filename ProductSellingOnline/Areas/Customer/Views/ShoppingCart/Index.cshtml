@@ -1,0 +1,131 @@
+﻿@model ProductSellingOnline.Models.ViewModels.ShoppingCartViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (Model.Products.Count > 0)
+{
+    <form method="post">
+        <br /><br />
+        <h2>Your Shopping Cart</h2>
+        <br />
+        <div>
+            <div class="field is-horizontal">
+                <div class="column is-three-fifths">
+                    <table class="table">
+                        <tr>
+                            <th style="text-align:center; width:20%"></th>
+                            <th style="text-align:center;">
+                                <label asp-for="@Model.Products.FirstOrDefault().Name"></label>
+                            </th>
+                            <th style="text-align:center;">
+                                <label asp-for="@Model.Products.FirstOrDefault().Price"></label>
+                            </th>
+                            <th style="text-align:center;">
+                                <label asp-for="@Model.Products.FirstOrDefault().ShadeColor"></label>
+                            </th>
+                            <th style="text-align:center;">
+                                <label asp-for="@Model.Products.FirstOrDefault().ProductType.Name">Product Type</label>
+                            </th>
+                            <th style="text-align:center;"></th>
+                        </tr>
+                        @foreach (var item in Model.Products)
+                        {
+                            <tr style="padding: 50px;">
+                                <td>
+                                    <a asp-controller="Home" asp-area="Customer" asp-action="Details" asp-route-id="@item.Id">
+                                        <img src="@item.Image" width="100%" style="margin: auto; display:block; border-radius:5px" />
+                                    </a>
+                                </td>
+                                <td style="text-align:center">
+                                    @Html.DisplayFor(c => item.Name)
+                                </td>
+                                <td style="text-align:center">
+                                    @Html.DisplayFor(c => item.Price)
+                                </td>
+                                <td style="text-align:center">
+                                    @Html.DisplayFor(c => item.ShadeColor)
+                                </td>
+                                <td style="text-align:center">
+                                    @Html.DisplayFor(c => item.ProductType.Name)
+                                </td>
+                                <td>
+                                    <button type="submit" class="button is-danger" asp-action="Remove" asp-route-id="@item.Id">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                        }
+                    </table>
+                </div>
+                <div class="column is-two-thirds">
+                    <div class="field is-horizontal">
+                        <div class="column is-one-quarter">
+                            <label class="label">Name: </label>
+                        </div>
+                        <div class="column is-two-fifths">
+                            <input type="text" asp-for="@Model.Appointments.CustomerName" class="input">
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="column is-one-quarter">
+                            <label class="label">Phone Number: </label>
+                        </div>
+                        <div class="column is-two-fifths">
+                            <input type="tel" asp-for="@Model.Appointments.CustomerPhoneNumber" class="input">
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="column is-one-quarter">
+                            <label class="label">Email: </label>
+                        </div>
+                        <div class="column is-two-fifths">
+                            <input type="email" asp-for="@Model.Appointments.CustomerEmail" class="input">
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="column is-one-quarter">
+                            <label class="label">Appointment Date: </label>
+                        </div>
+                        <div class="column is-two-fifths">
+                            <input type="date" asp-for="@Model.Appointments.AppointmentDate" class="input">
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="column is-one-quarter">
+                            <label class="label">Appointment Time: </label>
+                        </div>
+                        <div class="column is-two-fifths">
+                            <input type="time" asp-for="@Model.Appointments.AppointmentTime" class="input">
+                        </div>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <button class="button is-success" type="submit" id="btnPlaceOrder">Schedule Appointment</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+}
+else
+{
+    <section class="hero is-danger">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    No items added to the shopping cart...
+                </h1>
+                <h2 class="subtitle">
+                    No appointments if no items...
+                </h2>
+            </div>
+        </div>
+    </section>
+}
+

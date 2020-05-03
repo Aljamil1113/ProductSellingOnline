@@ -1,0 +1,79 @@
+﻿@model ApplicationUser
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="title is-4">Edit User</h4>
+<hr />
+
+<div class="field">
+    <form asp-action="Edit" method="post">
+        <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <div class="field">
+            <label asp-for="FullName" class="label"></label>
+            <div class="control">
+                <input asp-for="FullName" class="input" />
+                <span asp-validation-for="FullName" class="help is-danger"> </span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="FirstName" class="label"></label>
+            <div class="control">
+                <input asp-for="FirstName" class="input"  />
+                <span asp-validation-for="FirstName" class="help is-danger"> </span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="MiddleName" class="label"></label>
+            <div class="control">
+                <input asp-for="MiddleName" class="input" />
+                <span asp-validation-for="MiddleName" class="help is-danger"> </span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="LastName" class="label"></label>
+            <div class="control">
+                <input asp-for="LastName" class="input" />
+                <span asp-validation-for="LastName" class="help is-danger"> </span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="Email" class="label"></label>
+            <div class="control">
+                <input asp-for="Email" class="input" readonly/>
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="CompleteAddress" class="label"></label>
+            <div class="control">
+                <input asp-for="CompleteAddress" class="input" />
+                <span asp-validation-for="CompleteAddress" class="help is-danger"> </span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="PhoneNumber" class="label"></label>
+            <div class="control">
+                <input asp-for="PhoneNumber" class="input" />
+                <span asp-validation-for="PhoneNumber" class="help is-danger"> </span>
+            </div>
+        </div>
+
+        <div class="field is-grouped are-medium">
+            <div class="control">
+                <input type="submit" value="Save" class="button is-primary" />
+            </div>
+            <div class="control">
+                <a asp-action="Index" class="button is-light">Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>
+

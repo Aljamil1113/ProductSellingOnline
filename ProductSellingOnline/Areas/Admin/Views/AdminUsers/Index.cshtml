@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ApplicationUser>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Admin User Lists</h2>
+
+<div class="block level-right">
+    <p>
+        <a asp-area="Identity" class="button is-primary" asp-page="/Account/Register"><i class="fas fa-plus"></i>Add New User</a>
+    </p>
+</div>
+
+
+<div class="block">
+    <div class="table-container">
+        <table class="table is-striped is-hoverable is-narrow is-fullwidth">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FullName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CompleteAddress)
+                    </th>
+                    <th>Disabled</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompleteAddress)
+                    </td>
+                    <td>
+                        @if(item.LockoutEnd!=null && item.LockoutEnd > DateTime.Now)
+                        {
+                            <label>Disabled</label>
+                        }
+                    </td>
+                    <td>
+                        @if (item.LockoutEnd == null || item.LockoutEnd > DateTime.Now)
+                        {
+                            <a type="buttom" class="button is-primary" href="@Url.Action("Edit/" + item.Id)">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a type="buttom" class="button is-danger" href="@Url.Action("Delete/" + item.Id)">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        }
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

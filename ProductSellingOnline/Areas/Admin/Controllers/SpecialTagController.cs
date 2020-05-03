@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductSellingOnline.Data;
 using ProductSellingOnline.Models;
+using ProductSellingOnline.Utility;
 
 namespace ProductSellingOnline.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.SuperAdminUser)]
     public class SpecialTagController : Controller
     {
         private readonly ApplicationDbContext db;

@@ -1,0 +1,72 @@
+﻿@model ApplicationUser
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4> class="title is-4">Delete User</h4>
+<hr />
+
+<div class="field">
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="field">
+            <label asp-for="FullName" class="label"></label>
+            <div class="control">
+                <input asp-for="FullName" class="input" disabled/>
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="FirstName" class="label"></label>
+            <div class="control">
+                <input asp-for="FirstName" class="input" disabled/>
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="MiddleName" class="label"></label>
+            <div class="control">
+                <input asp-for="MiddleName" class="input" disabled/>
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="LastName" class="label"></label>
+            <div class="control">
+                <input asp-for="LastName" class="input" disabled/>
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="Email" class="label"></label>
+            <div class="control">
+                <input asp-for="Email" class="input" readonly />
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="CompleteAddress" class="label"></label>
+            <div class="control">
+                <input asp-for="CompleteAddress" class="input" disabled/>
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="PhoneNumber" class="label"></label>
+            <div class="control">
+                <input asp-for="PhoneNumber" class="input" disabled/>
+            </div>
+        </div>
+
+        <div class="field is-grouped are-medium">
+            <div class="control">
+                <input type="submit" value="Delete" asp-route-id="@Model.Id"class="button is-danger" />
+            </div>
+            <div class="control">
+                <a asp-action="Index" class="button is-light">Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>
+

@@ -1,0 +1,124 @@
+﻿@model AppointmentViewModel
+@{ 
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="get">
+<br /><br />
+    <h2>Appointment List</h2>
+
+    <div style="height:250px; background-color:aliceblue;" class="container">
+        <div class="column is-half">
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    <label class="label">Customer Name</label>
+                </div>
+                <div class="control column is-8">
+                    @Html.Editor("searchName", new { htmlAttributes = new { @class = "input" } })
+                </div>
+                @*<div class="control column is-2"></div>*@
+                <div class="control column is-4">
+                    <label class="label">Customer Email</label>
+                </div>
+                <div class="control column is-8">
+                    @Html.Editor("searchEmail", new { htmlAttributes = new { @class = "input" } })
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    <label class="label">Phone Number</label>
+                </div>
+                <div class="control column is-8">
+                    @Html.Editor("searchPhone", new { htmlAttributes = new { @class = "input" } })
+                </div>
+                @*<div class="control column is-2"></div>*@
+                <div class="control column is-4">
+                    <label class="label">Appointment Date</label>
+                </div>
+                <div class="control column is-8">
+                    @Html.Editor("searchDate", new { htmlAttributes = new { @class = "input", type = "date" } })
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    
+                </div>
+                <div class="control column is-8">
+                    
+                </div>
+                @*<div class="control column is-2"></div>*@
+                <div class="control column is-4">
+                    
+                </div>
+                <div class="control column is-8">
+                   <button class="button is-primary" name="submit" type="submit" value="Search">
+                       <i class="fas fa-search"></i>Search
+                   </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br /><br />
+
+    <div>
+        <table class="table is-striped">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().applicationUser.FullName)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerName)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerEmail)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerPhoneNumber)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().AppointmentDate)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().IsConfirmed)
+                </th>
+                <th></th>
+            </tr>
+            @foreach(var item in Model.Appointments)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.applicationUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CustomerEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CustomerPhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AppointmentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.IsConfirmed)
+                </td>
+                <td>
+                    <partial name="_TableButtonPartial" model="@item.Id" />
+                </td>
+            </tr>
+            }
+        </table>
+    </div>
+</form>
+

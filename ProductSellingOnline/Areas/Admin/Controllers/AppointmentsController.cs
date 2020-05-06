@@ -18,6 +18,7 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext db;
+        
 
         public AppointmentsController(ApplicationDbContext _db)
         {
@@ -72,6 +73,57 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
             }
 
             return View(appointmentView);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var ProductsList = (IEnumerable<Products>)(from p in db.Products
+                            join pa in db.ProductSelectedForAppointment
+                            on p.Id equals pa.ProductId
+                            where pa.AppointmentId == id
+                            select p).Include("ProductType");
+
+            AppointmentDetialsViewModel appointmentDetailsView = new AppointmentDetialsViewModel()
+            {
+                Appointment = db.Appointments.Include(a => a.applicationUser).Where(a => a.Id == id).FirstOrDefault(),
+                SalesPerson = db.ApplicationUser.ToList(),
+                Products = ProductsList.ToList()
+            };
+
+            return View(appointmentDetailsView);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, AppointmentDetialsViewModel objAppointment)
+        {
+            if(ModelState.IsValid)
+            {
+                objAppointment.Appointment.AppointmentDate = objAppointment.Appointment.AppointmentDate
+                    .AddHours(objAppointment.Appointment.AppointmentTime.Hour)
+                    .AddMinutes(objAppointment.Appointment.AppointmentTime.Minute);
+
+                var appointmentDb = db.Appointments.Where(a => a.Id == objAppointment.Appointment.Id).FirstOrDefault();
+
+                appointmentDb.CustomerName = objAppointment.Appointment.CustomerName;
+                appointmentDb.CustomerEmail = objAppointment.Appointment.CustomerEmail;
+                appointmentDb.CustomerPhoneNumber = objAppointment.Appointment.CustomerPhoneNumber;
+                appointmentDb.AppointmentDate = objAppointment.Appointment.AppointmentDate;
+                appointmentDb.IsConfirmed = objAppointment.Appointment.IsConfirmed;
+                appointmentDb.SalesPersonId = objAppointment.Appointment.SalesPersonId;
+
+                await db.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(objAppointment);
         }
     }
 }

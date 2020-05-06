@@ -125,5 +125,63 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
 
             return View(objAppointment);
         }
+
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var ProductsList = (IEnumerable<Products>)(from p in db.Products
+                                                       join pa in db.ProductSelectedForAppointment
+                                                       on p.Id equals pa.ProductId
+                                                       where pa.AppointmentId == id
+                                                       select p).Include("ProductType");
+
+            AppointmentDetialsViewModel appointmentDetailsView = new AppointmentDetialsViewModel()
+            {
+                Appointment = db.Appointments.Include(a => a.applicationUser).Where(a => a.Id == id).FirstOrDefault(),
+                SalesPerson = db.ApplicationUser.ToList(),
+                Products = ProductsList.ToList()
+            };
+
+            return View(appointmentDetailsView);
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var ProductsList = (IEnumerable<Products>)(from p in db.Products
+                                                       join pa in db.ProductSelectedForAppointment
+                                                       on p.Id equals pa.ProductId
+                                                       where pa.AppointmentId == id
+                                                       select p).Include("ProductType");
+
+            AppointmentDetialsViewModel appointmentDetailsView = new AppointmentDetialsViewModel()
+            {
+                Appointment = db.Appointments.Include(a => a.applicationUser).Where(a => a.Id == id).FirstOrDefault(),
+                SalesPerson = db.ApplicationUser.ToList(),
+                Products = ProductsList.ToList()
+            };
+
+            return View(appointmentDetailsView);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeletePost(int ?id)
+        {
+            var appointment = await db.Appointments.FindAsync(id);
+            db.Appointments.Remove(appointment);
+            await db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

@@ -1,12 +1,12 @@
 ﻿@model AppointmentDetialsViewModel
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <form method="post">
     <br /><br />
-    <h2>Your Shopping Cart</h2>
+    <h2>Delete Appointment</h2>
     <br />
     <div class="field is-horizontal">
         <div class="column is-half">
@@ -16,7 +16,7 @@
                     <label class="label">Customer Name: </label>
                 </div>
                 <div class="column is-two-fifths">
-                    <input type="text" asp-for="@Model.Appointment.CustomerName" class="input">
+                    <input type="text" asp-for="@Model.Appointment.CustomerName" class="input" disabled>
                 </div>
             </div>
 
@@ -25,7 +25,7 @@
                     <label class="label">Phone Number: </label>
                 </div>
                 <div class="column is-two-fifths">
-                    <input type="tel" asp-for="@Model.Appointment.CustomerPhoneNumber" class="input">
+                    <input type="tel" asp-for="@Model.Appointment.CustomerPhoneNumber" class="input" disabled>
                 </div>
             </div>
 
@@ -34,7 +34,7 @@
                     <label class="label">Email: </label>
                 </div>
                 <div class="column is-two-fifths">
-                    <input type="email" asp-for="@Model.Appointment.CustomerEmail" class="input">
+                    <input type="email" asp-for="@Model.Appointment.CustomerEmail" class="input" disabled>
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
                     <label class="label">Appointment Date: </label>
                 </div>
                 <div class="column is-two-fifths">
-                    <input type="date" asp-for="@Model.Appointment.AppointmentDate" class="input">
+                    <input type="date" asp-for="@Model.Appointment.AppointmentDate" class="input" disabled>
                 </div>
             </div>
 
@@ -52,7 +52,7 @@
                     <label class="label">Appointment Time: </label>
                 </div>
                 <div class="column is-two-fifths">
-                    <input type="time" asp-for="@Model.Appointment.AppointmentDate" class="input">
+                    <input type="time" asp-for="@Model.Appointment.AppointmentDate" class="input" disabled>
                 </div>
             </div>
 
@@ -62,7 +62,7 @@
                 </div>
                 <div class="column is-three-fifths">
                     <div class="select">
-                        <select asp-for="@Model.Appointment.SalesPersonId" asp-items="@Model.SalesPerson.ToSelectListItemsString(Model.Appointment.SalesPersonId)"></select>
+                        <select asp-for="@Model.Appointment.SalesPersonId" asp-items="@Model.SalesPerson.ToSelectListItemsString(Model.Appointment.SalesPersonId)" disabled></select>
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
             <div class="field is-horizontal">
                 <div class="column is-three-fifths">
                     <label class="checkbox" asp-for="Appointment.IsConfirmed">
-                        <input type="checkbox" asp-for="Appointment.IsConfirmed">
+                        <input type="checkbox" asp-for="Appointment.IsConfirmed" disabled>
                         Confirmed ?
                     </label>
                 </div>
@@ -128,11 +128,10 @@
 
     <div class="field is-horizontal">
         <div class="column is-one-quarter">
-            <button class="button is-primary" type="submit">Save</button>
+            <button class="button is-danger" type="submit">Delete</button>
         </div>
         <div class="column is-one-quarter">
             <a class="button is-success" asp-area="Admin" asp-controller="Appointments" asp-action="Index">Back To List</a>
         </div>
-    </div>  
+    </div> 
 </form>
-

@@ -8,5 +8,6 @@ namespace ProductSellingOnline.Models.ViewModels
     public class AppointmentViewModel
     {
         public List<Appointments> Appointments { get; set; }
+        public PageInfo PageInfo { get; set; }
     }
 }

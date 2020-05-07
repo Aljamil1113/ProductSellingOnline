@@ -5,7 +5,7 @@
 }
 
 <form method="get">
-<br /><br />
+    <br /><br />
     <h2>Appointment List</h2>
 
     <div style="height:250px; background-color:aliceblue;" class="container">
@@ -44,19 +44,19 @@
 
             <div class="field is-horizontal">
                 <div class="control column is-4">
-                    
+
                 </div>
                 <div class="control column is-8">
-                    
+
                 </div>
                 @*<div class="control column is-2"></div>*@
                 <div class="control column is-4">
-                    
+
                 </div>
                 <div class="control column is-8">
-                   <button class="button is-primary" name="submit" type="submit" value="Search">
-                       <i class="fas fa-search"></i>Search
-                   </button>
+                    <button class="button is-primary" name="submit" type="submit" value="Search">
+                        <i class="fas fa-search"></i>Search
+                    </button>
                 </div>
             </div>
         </div>
@@ -92,33 +92,37 @@
                 </th>
                 <th></th>
             </tr>
-            @foreach(var item in Model.Appointments)
+            @foreach (var item in Model.Appointments)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(m => item.applicationUser.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.CustomerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.CustomerEmail)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.CustomerPhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.AppointmentDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.IsConfirmed)
-                </td>
-                <td>
-                    <partial name="_TableButtonPartial" model="@item.Id" />
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.applicationUser.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.CustomerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.CustomerEmail)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.CustomerPhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.AppointmentDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.IsConfirmed)
+                    </td>
+                    <td>
+                        <partial name="_TableButtonPartial" model="@item.Id" />
+                    </td>
+                </tr>
             }
         </table>
     </div>
+
+    <div page-model="@Model.PageInfo" page-action="Index" page-classes-enabled="true"
+         page-class="button border" page-class-normal="button is-default active"
+         page-class-selected="button is-primary active" class="buttons"></div>
 </form>
 

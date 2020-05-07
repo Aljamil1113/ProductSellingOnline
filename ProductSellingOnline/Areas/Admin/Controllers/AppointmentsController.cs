@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,14 +19,14 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext db;
-        
+        private int PageSize = 5;
 
         public AppointmentsController(ApplicationDbContext _db)
         {
             db = _db;
         }
 
-        public IActionResult Index(string searchName=null, string searchEmail=null, string searchPhone=null, string searchDate=null)
+        public IActionResult Index(int productPage = 1, string searchName=null, string searchEmail=null, string searchPhone=null, string searchDate=null)
         {
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
@@ -35,6 +36,34 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
             {
                 Appointments = new List<Appointments>()
             };
+
+            StringBuilder param = new StringBuilder();
+
+            param.Append("/Admin/Appointments?ProductPage=:");
+
+            param.Append("&searchName=");
+            if(searchName != null)
+            {
+                param.Append(searchName);
+            }
+
+            param.Append("&searchEmail=");
+            if (searchEmail != null)
+            {
+                param.Append(searchEmail);
+            }
+
+            param.Append("&searchPhone=");
+            if (searchPhone != null)
+            {
+                param.Append(searchPhone);
+            }
+
+            param.Append("&searchDate=");
+            if (searchDate != null)
+            {
+                param.Append(searchDate);
+            }
 
             appointmentView.Appointments = db.Appointments.Include(s => s.applicationUser).ToList();
 
@@ -71,6 +100,20 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
                 }
                 
             }
+
+            var count = appointmentView.Appointments.Count;
+
+            appointmentView.Appointments = appointmentView.Appointments.OrderBy(p => p.AppointmentDate)
+                .Skip((productPage - 1) * PageSize)
+                .Take(PageSize).ToList();
+
+            appointmentView.PageInfo = new PageInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                TotalItems = count,
+                urlParam = param.ToString()
+            };
 
             return View(appointmentView);
         }

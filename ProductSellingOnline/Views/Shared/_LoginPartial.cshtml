@@ -8,7 +8,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-item">
-            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="navbar-item is-success">Hello @UserManager.GetUserName(User)!</a>
+            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="navbar-item is-success">@await Component.InvokeAsync("UserName")</a>
             <button type="submit" class="button is-light">Logout</button>
         </form>
     }

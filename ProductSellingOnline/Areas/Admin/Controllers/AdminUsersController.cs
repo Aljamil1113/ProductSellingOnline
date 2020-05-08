@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProductSellingOnline.Data;
 using ProductSellingOnline.Models;
+using ProductSellingOnline.Models.ViewModels;
 using ProductSellingOnline.Utility;
 
 namespace ProductSellingOnline.Areas.Admin.Controllers
@@ -16,10 +18,25 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
     {
         private readonly ApplicationDbContext db;
 
-        public AdminUsersController(ApplicationDbContext _db)
+        [BindProperty]
+        public AdminUsersRolesViewModel AdminUsersRolesVM { get; set; }
+
+        UserManager<IdentityUser> userManager;
+        RoleManager<IdentityRole> roleManager;
+
+        public AdminUsersController(ApplicationDbContext _db, UserManager<IdentityUser> _userManager, RoleManager<IdentityRole> _roleManager)
         {
             db = _db;
+            roleManager = _roleManager;
+            userManager = _userManager;
+            AdminUsersRolesVM = new AdminUsersRolesViewModel()
+            {
+                ApplicationUser = new ApplicationUser(),
+                RoleName = "",
+                Roles = new List<string>()
+            };
         }
+
         public IActionResult Index()
         {
             return View(db.ApplicationUser.ToList());
@@ -28,46 +45,70 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
+            var roles = roleManager.Roles.ToList();
+
             if(id == null)
             {
                 return NotFound();
             }
 
-            var userFromDb = await db.ApplicationUser.FindAsync(id);
+            AdminUsersRolesVM.ApplicationUser = await db.ApplicationUser.FindAsync(id);
 
-            if(userFromDb == null)
+            List<string> listRoles = new List<string>();
+            foreach (var item in roles)
+            {
+                listRoles.Add(item.Name);
+            }
+
+            if(AdminUsersRolesVM.ApplicationUser == null)
             {
                 return NotFound();
             }
 
-            return View(userFromDb);
+            AdminUsersRolesVM.RoleName = userManager.GetRolesAsync(AdminUsersRolesVM.ApplicationUser).Result.Count != 0 ? userManager.GetRolesAsync(AdminUsersRolesVM.ApplicationUser).Result[0] : "";
+            AdminUsersRolesVM.Roles = listRoles;
+            return View(AdminUsersRolesVM);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, ApplicationUser applicationUser)
+        public async Task<IActionResult> EditPost(string id)
         {
-            if(id != applicationUser.Id)
+            if(id != AdminUsersRolesVM.ApplicationUser.Id)
             {
                 return NotFound();
             }
+
+            var roles = roleManager.Roles.ToList();
+
+            var user = userManager.FindByIdAsync(id).Result;
 
             if(ModelState.IsValid)
             {
-                ApplicationUser userFromDb = db.ApplicationUser.Where(a => a.Id == id).FirstOrDefault();
-                userFromDb.FullName = applicationUser.FullName;
-                userFromDb.FirstName = applicationUser.FirstName;
-                userFromDb.LastName = applicationUser.LastName;
-                userFromDb.MiddleName = applicationUser.MiddleName;
-                userFromDb.CompleteAddress = applicationUser.CompleteAddress;
-                userFromDb.PhoneNumber = applicationUser.PhoneNumber;
+                ApplicationUser userFromDb = db.ApplicationUser.Where(a => a.Id == AdminUsersRolesVM.ApplicationUser.Id).FirstOrDefault();
+                userFromDb.FullName = AdminUsersRolesVM.ApplicationUser.FullName;
+                userFromDb.FirstName = AdminUsersRolesVM.ApplicationUser.FirstName;
+                userFromDb.LastName = AdminUsersRolesVM.ApplicationUser.LastName;
+                userFromDb.MiddleName = AdminUsersRolesVM.ApplicationUser.MiddleName;
+                userFromDb.CompleteAddress = AdminUsersRolesVM.ApplicationUser.CompleteAddress;
+                userFromDb.PhoneNumber = AdminUsersRolesVM.ApplicationUser.PhoneNumber;
+
+                List<string> listRoles = new List<string>();
+
+                foreach (var item in roles)
+                {
+                    listRoles.Add(item.Name);
+                }
+
+                await userManager.RemoveFromRolesAsync(user, listRoles);
+                await userManager.AddToRoleAsync(user, AdminUsersRolesVM.RoleName);
 
                 await db.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(applicationUser);
+            return View(AdminUsersRolesVM);
         }
 
         [HttpGet]

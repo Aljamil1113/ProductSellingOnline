@@ -14,7 +14,7 @@ using ProductSellingOnline.Utility;
 
 namespace ProductSellingOnline.Areas.Identity.Pages.Account
 {
-    [Authorize(Roles = SD.SuperAdminUser)]
+    //[Authorize(Roles = SD.SuperAdminUser)]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -113,14 +113,21 @@ namespace ProductSellingOnline.Areas.Identity.Pages.Account
                         await _roleManager.CreateAsync(new IdentityRole(SD.AdminUser));
                     }
 
-                    if(Input.IsSuperAdmin)
+                    if (!await _roleManager.RoleExistsAsync(SD.Customer))
                     {
-                        await _userManager.AddToRoleAsync(user, SD.SuperAdminUser);
+                        await _roleManager.CreateAsync(new IdentityRole(SD.Customer));
                     }
-                    else
-                    {
-                        await _userManager.AddToRoleAsync(user, SD.AdminUser); 
-                    }
+
+                    await _userManager.AddToRoleAsync(user, SD.Customer);
+
+                    //if (Input.IsSuperAdmin)
+                    //{
+                    //    await _userManager.AddToRoleAsync(user, SD.SuperAdminUser);
+                    //}
+                    //else
+                    //{
+                    //    await _userManager.AddToRoleAsync(user, SD.AdminUser); 
+                    //}
 
                     _logger.LogInformation("User created a new account with password.");
 

@@ -1,4 +1,4 @@
-﻿@model ApplicationUser
+﻿@model AdminUsersRolesViewModel
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,59 +10,74 @@
 <div class="field">
     <form asp-action="Edit" method="post">
         <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ApplicationUser.Id" />
         <div class="field">
-            <label asp-for="FullName" class="label"></label>
+            <label asp-for="ApplicationUser.FullName" class="label"></label>
             <div class="control">
-                <input asp-for="FullName" class="input" />
-                <span asp-validation-for="FullName" class="help is-danger"> </span>
+                <input asp-for="ApplicationUser.FullName" class="input" />
+                <span asp-validation-for="ApplicationUser.FullName" class="help is-danger"> </span>
             </div>
         </div>
 
         <div class="field">
-            <label asp-for="FirstName" class="label"></label>
+            <label asp-for="ApplicationUser.FirstName" class="label"></label>
             <div class="control">
-                <input asp-for="FirstName" class="input"  />
-                <span asp-validation-for="FirstName" class="help is-danger"> </span>
+                <input asp-for="ApplicationUser.FirstName" class="input" />
+                <span asp-validation-for="ApplicationUser.FirstName" class="help is-danger"> </span>
             </div>
         </div>
 
         <div class="field">
-            <label asp-for="MiddleName" class="label"></label>
+            <label asp-for="ApplicationUser.MiddleName" class="label"></label>
             <div class="control">
-                <input asp-for="MiddleName" class="input" />
-                <span asp-validation-for="MiddleName" class="help is-danger"> </span>
+                <input asp-for="ApplicationUser.MiddleName" class="input" />
+                <span asp-validation-for="ApplicationUser.MiddleName" class="help is-danger"> </span>
             </div>
         </div>
 
         <div class="field">
-            <label asp-for="LastName" class="label"></label>
+            <label asp-for="ApplicationUser.LastName" class="label"></label>
             <div class="control">
-                <input asp-for="LastName" class="input" />
-                <span asp-validation-for="LastName" class="help is-danger"> </span>
+                <input asp-for="ApplicationUser.LastName" class="input" />
+                <span asp-validation-for="ApplicationUser.LastName" class="help is-danger"> </span>
             </div>
         </div>
 
         <div class="field">
-            <label asp-for="Email" class="label"></label>
+            <label asp-for="ApplicationUser.Email" class="label"></label>
             <div class="control">
-                <input asp-for="Email" class="input" readonly/>
+                <input asp-for="ApplicationUser.Email" class="input" readonly />
             </div>
         </div>
 
         <div class="field">
-            <label asp-for="CompleteAddress" class="label"></label>
+            <label asp-for="ApplicationUser.CompleteAddress" class="label"></label>
             <div class="control">
-                <input asp-for="CompleteAddress" class="input" />
-                <span asp-validation-for="CompleteAddress" class="help is-danger"> </span>
+                <input asp-for="ApplicationUser.CompleteAddress" class="input" />
+                <span asp-validation-for="ApplicationUser.CompleteAddress" class="help is-danger"> </span>
             </div>
         </div>
 
         <div class="field">
-            <label asp-for="PhoneNumber" class="label"></label>
+            <label asp-for="ApplicationUser.PhoneNumber" class="label"></label>
             <div class="control">
-                <input asp-for="PhoneNumber" class="input" />
-                <span asp-validation-for="PhoneNumber" class="help is-danger"> </span>
+                <input asp-for="ApplicationUser.PhoneNumber" class="input" />
+                <span asp-validation-for="ApplicationUser.PhoneNumber" class="help is-danger"> </span>
+            </div>
+        </div>
+
+        @*<div class="field">
+            <label asp-for="RoleName" class="label"></label>
+            <div class="control">
+                <input asp-for="RoleName" class="input" />
+                <span asp-validation-for="RoleName" class="help is-danger"> </span>
+            </div>
+        </div>*@
+
+        <div class="field">
+            <label asp-for="RoleName" class="label"></label>
+            <div class="select">
+                <select asp-for="RoleName" asp-items="new SelectList(Model.Roles)"></select>
             </div>
         </div>
 

@@ -14,7 +14,7 @@ using ProductSellingOnline.Utility;
 
 namespace ProductSellingOnline.Areas.Admin.Controllers
 {
-    //[Authorize(Roles = SD.AdminUser + "," + SD.SuperAdminUser)]
+    [Authorize(Roles = SD.AdminUser + "," + SD.SuperAdminUser)]
     [Area("Admin")]
     public class AppointmentsController : Controller
     {

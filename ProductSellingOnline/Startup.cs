@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using ProductSellingOnline.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProductSellingOnline.Services;
 
 namespace ProductSellingOnline
 {
@@ -53,6 +54,9 @@ namespace ProductSellingOnline
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+
+            services.AddScoped<IProductTypesServices, ProductTypesServices>();
 
             // services.AddSession(options => {
             //     options.IdleTimeout = TimeSpan.FromMinutes(30);

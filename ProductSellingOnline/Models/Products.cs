@@ -17,6 +17,8 @@ namespace ProductSellingOnline.Models
 
         public bool Available { get; set; }
 
+        public int Quantity { get; set; }
+
         public string Image { get; set; }
 
         public string ShadeColor { get; set; }

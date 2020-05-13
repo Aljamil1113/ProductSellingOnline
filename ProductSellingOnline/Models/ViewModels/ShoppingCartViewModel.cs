@@ -6,5 +6,6 @@ namespace ProductSellingOnline.Models.ViewModels
     {
         public List<Products> Products { get; set; }
         public Appointments Appointments { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

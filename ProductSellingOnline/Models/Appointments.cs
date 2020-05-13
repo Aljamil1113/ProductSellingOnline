@@ -7,12 +7,21 @@ namespace ProductSellingOnline.Models
     public class Appointments
     {
         public int Id { get; set; }
+
+        [Required]
         public DateTime AppointmentDate { get; set; }
 
         [NotMapped]
+        [Required]
         public DateTime AppointmentTime { get; set; }
+
+        [Required]
         public string CustomerName { get; set; }
+
+        [Required]
         public string CustomerPhoneNumber { get; set; }
+
+        [Required]
         public string CustomerEmail { get; set; }
         public bool IsConfirmed { get; set; }
 

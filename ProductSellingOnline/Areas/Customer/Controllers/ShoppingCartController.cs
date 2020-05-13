@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductSellingOnline.Data;
@@ -8,6 +9,7 @@ using ProductSellingOnline.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ProductSellingOnline.Areas.Customer.Controllers
@@ -16,20 +18,27 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
     public class ShoppingCartController : Controller
     {
         private readonly ApplicationDbContext db;
+        UserManager<IdentityUser> userManager;
 
         [BindProperty]
         public ShoppingCartViewModel ShoppingCartVM { get; set; }
-        public ShoppingCartController(ApplicationDbContext _db)
+        public ShoppingCartController(ApplicationDbContext _db, UserManager<IdentityUser> _userManager)
         {
             db = _db;
+            userManager = _userManager;
             ShoppingCartVM = new ShoppingCartViewModel()
             {
-                Products = new List<Products>()
+                Products = new List<Products>(),
+                ApplicationUser = new ApplicationUser()
             };
         }
 
         public async Task<IActionResult> Index()
         {
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
             List<int> lstShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
 
             if(lstShoppingCart == null)
@@ -39,7 +48,8 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
 
             if(lstShoppingCart.Count > 0)
             {
-                foreach(int cartItem in lstShoppingCart)
+                ShoppingCartVM.ApplicationUser = db.ApplicationUser.Where(a => a.Id == claim.Value).FirstOrDefault();
+                foreach (int cartItem in lstShoppingCart)
                 {
                     Products prod = await db.Products.Include(p => p.ProductType).Include(s => s.SpecialTag).Where(p => p.Id == cartItem).FirstOrDefaultAsync();
                     ShoppingCartVM.Products.Add(prod);

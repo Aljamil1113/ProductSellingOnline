@@ -22,8 +22,18 @@
             <label class="label" asp-for="Products.Price">Product Price</label>
         </div>
         <div class="control column is-5">
-            <input class="input is-focused" type="text" asp-for="@Model.Products.Price" />
+            <input class="input is-focused"  asp-for="@Model.Products.Price" />
             <span asp-validation-for="Products.Price" class="help is-danger"> </span>
+        </div>
+    </div>
+
+    <div class="field is-horizontal">
+        <div class="control column is-2">
+            <label class="label" asp-for="Products.Quantity">Product Quantity</label>
+        </div>
+        <div class="control column is-5">
+            <input class="is-focused number" asp-for="@Model.Products.Quantity" />
+            <span asp-validation-for="Products.Quantity" class="help is-danger"> </span>
         </div>
     </div>
 
@@ -69,12 +79,12 @@
     </div>
 
     <div class="field">
-        <div class="control column is-5">
-            <label class="checkbox" asp-for="Products.Available" style="font-family:'Arial'">
-                <input type="checkbox" asp-for="@Model.Products.Available" />
-                Available?
-            </label>
-        </div>
+    <div class="control column is-5">
+        <label class="checkbox" asp-for="Products.Available" style="font-family:'Arial'">
+            <input asp-for="@Model.Products.Available" disabled/>
+            Available?
+        </label>
+    </div>
     </div>
 
     <div class="field is-grouped">

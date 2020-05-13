@@ -29,6 +29,15 @@
 
             <div class="field is-horizontal">
                 <div class="control column is-4">
+                    <label class="label" asp-for="Products.Quantity">Product Quantity</label>
+                </div>
+                <div class="control column is-8">
+                    <input class="number is-focused" asp-for="@Model.Products.Quantity" readonly/>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="control column is-4">
                     <label class="label" asp-for="ProductTypes">Product Types</label>
                 </div>
                 <div class="control column is-8">

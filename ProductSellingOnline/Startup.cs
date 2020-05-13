@@ -47,7 +47,7 @@ namespace ProductSellingOnline
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             //Sessions
-            //services.AddDistributedMemoryCache();
+            services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(30);

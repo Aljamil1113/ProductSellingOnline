@@ -32,6 +32,11 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
         {
             List<int> lstShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
 
+            if(lstShoppingCart == null)
+            {
+                return PartialView("~/Views/Shared/_NoCartItems.cshtml");
+            }
+
             if(lstShoppingCart.Count > 0)
             {
                 foreach(int cartItem in lstShoppingCart)
@@ -40,14 +45,13 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
                     ShoppingCartVM.Products.Add(prod);
                 }
             }
-
             return View(ShoppingCartVM);
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Index")]
-        public IActionResult IndexPost()
+        public async Task<IActionResult> IndexPost()
         {
             List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
 
@@ -56,8 +60,8 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
                                                             .AddMinutes(ShoppingCartVM.Appointments.AppointmentTime.Minute);
 
             Appointments appointments = ShoppingCartVM.Appointments;
-            db.Appointments.Add(appointments);
-            db.SaveChanges();
+            await db.Appointments.AddAsync(appointments);
+            await db.SaveChangesAsync();
 
             int appointmentId = appointments.Id;
 
@@ -69,9 +73,10 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
                    ProductId = cart
                 };
                
-                db.ProductSelectedForAppointment.Add(productAppointments);
+                await db.ProductSelectedForAppointment.AddAsync(productAppointments);
             }
-            db.SaveChanges();
+           
+            await db.SaveChangesAsync();
 
             lstCartItems = new List<int>();
             HttpContext.Session.Set("ssShoppingCart", lstCartItems);

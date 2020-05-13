@@ -62,17 +62,19 @@
                             <a class="navbar-item" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Users</a>
                         }
 
-
-
-
                         @*<a class="navbar-item" asp-area="" asp-controller="Home" asp-action="About">About</a>
-        <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>*@
+                        <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>*@
                         @if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart") != null)
                         {
                             <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index" class="navbar-item">
                                 <i class="fas fa-shopping-cart"></i> &nbsp;
                                 @{
                                     var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart").Count;
+
+                                    if (count <= 0)
+                                    {
+                                        <partial name="_NoCartItems" />
+                                    }
                                 }
                                 (@count)
                             </a>

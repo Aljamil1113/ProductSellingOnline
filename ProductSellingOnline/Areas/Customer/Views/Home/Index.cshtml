@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
 <div class="field is-horizontal">
     @foreach (var product in Model)
     {
@@ -22,8 +21,8 @@
                     <label style="font-size:20px; color:#a51313">@String.Format("{0:C}", product.Price)</label>
                 </div>
             </div>
-            <footer class="card-footer">
-                <a asp-controller="Home" asp-action="Details" asp-route-Id="@product.Id" class="button is-success">Details View</a>
+            <footer class="card-footer">            
+                 <a asp-controller="Home" asp-action="Details" asp-route-Id="@product.Id" class="button is-success">Details View</a>              
             </footer>
             </div>
         </div>       

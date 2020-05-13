@@ -56,6 +56,15 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
         {
             if(ModelState.IsValid)
             {
+                if(ProductsVM.Products.Quantity <= 0)
+                {
+                    ProductsVM.Products.Available = false;
+                }
+                else
+                {
+                    ProductsVM.Products.Available = true;
+                }
+
                 var prod = await db.Products.AddAsync(ProductsVM.Products);
                 await db.SaveChangesAsync();
 
@@ -151,7 +160,15 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
 
                 productFromDb.Name = ProductsVM.Products.Name;
                 productFromDb.Price = ProductsVM.Products.Price;
-                productFromDb.Available = ProductsVM.Products.Available;
+                productFromDb.Quantity = ProductsVM.Products.Quantity;
+                if(ProductsVM.Products.Quantity <= 0)
+                {
+                    productFromDb.Available = false;
+                }
+                else
+                {
+                    productFromDb.Available = true;
+                }              
                 productFromDb.ProductTypeId = ProductsVM.Products.ProductTypeId;
                 productFromDb.SpecialTagId = ProductsVM.Products.SpecialTagId;
                 productFromDb.ShadeColor = ProductsVM.Products.ShadeColor;

@@ -74,20 +74,29 @@
                     @{
                         bool isInBag = false;
                         List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart");
-                        
-                        if(lstCart != null && lstCart.Contains(Model.Id))
+
+                        if (lstCart != null && lstCart.Contains(Model.Id))
                         {
                             isInBag = true;
                         }
                     }
-                    @if(isInBag)
+                    @if (User.Identity.IsAuthenticated)
                     {
-                        <button type="submit" value="Remove Bag" asp-action="Remove" class="button is-danger form-control" asp-route-id="@Model.Id" >Remove From Bag</button> 
+                        @if (isInBag)
+                        {
+                            <button type="submit" value="Remove Bag" asp-action="Remove" class="button is-danger form-control" asp-route-id="@Model.Id">Remove From Bag</button>
+                        }
+
+                        @if (Model.Quantity > 0)
+                        {
+                            <button type="submit" value="Add To Bag" class="button is-primary form-control" asp-route-id="@Model.Id">Add To Bag</button>
+                        }
+                        else
+                        {
+                            <p><strong>This product is not available</strong></p>
+                        }
+
                     }
-                    else
-                    {
-                        <button type="submit" value="Add To Bag" class="button is-primary form-control" asp-route-id="@Model.Id" >Add To Bag</button> 
-                    }                                    
                 </div>
             </div>
         </div>

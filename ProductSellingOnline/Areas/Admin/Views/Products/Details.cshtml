@@ -14,7 +14,7 @@
                     <label class="label" asp-for="Products.Name">Product Name</label>
                 </div>
                 <div class="control column is-8">
-                    <input class="input is-focused" type="text" asp-for="@Model.Products.Name" readonly/>
+                    <input class="input is-focused" type="text" asp-for="@Model.Products.Name" readonly />
                 </div>
             </div>
 
@@ -23,7 +23,16 @@
                     <label class="label" asp-for="Products.Price">Product Price</label>
                 </div>
                 <div class="control column is-8">
-                    <input class="input is-focused" type="text" asp-for="@Model.Products.Price" readonly/>
+                    <input class="input is-focused" type="text" asp-for="@Model.Products.Price" readonly />
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="control column is-4">
+                    <label class="label" asp-for="Products.Quantity">Product Quantity</label>
+                </div>
+                <div class="control column is-8">
+                    <input class="number is-focused" asp-for="@Model.Products.Quantity" readonly/>
                 </div>
             </div>
 
@@ -54,14 +63,14 @@
                     <label class="label" asp-for="Products.ShadeColor"></label>
                 </div>
                 <div class="control column is-8">
-                    <input class="input is-focused" type="text" asp-for="@Model.Products.ShadeColor" readonly/>
+                    <input class="input is-focused" type="text" asp-for="@Model.Products.ShadeColor" readonly />
                 </div>
             </div>
 
             <div class="field">
                 <div class="control column is-8">
                     <label class="checkbox" asp-for="Products.Available" style="font-family:'Arial'">
-                        <input type="checkbox" asp-for="@Model.Products.Available" disabled/>
+                        <input type="checkbox" asp-for="@Model.Products.Available" disabled />
                         Available?
                     </label>
                 </div>

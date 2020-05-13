@@ -36,22 +36,25 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
 
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
-        public IActionResult DetailsPost(int id)
+        public async Task<IActionResult> DetailsPost(int id)
         {
             List<int> lssShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
-
+            var product = await db.Products.FindAsync(id);
             if(lssShoppingCart == null)
             {
                 lssShoppingCart = new List<int>();
             }
             lssShoppingCart.Add(id);
+            
             HttpContext.Session.Set("ssShoppingCart", lssShoppingCart);
+          
             return RedirectToAction("Index", "Home", new{area = "Customer"});
         }
 
-        public IActionResult Remove(int id)
+        public async Task<IActionResult> Remove(int id)
         {
             List<int> lstShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+           
             if(lstShoppingCart.Count > 0)
             {
                 lstShoppingCart.Remove(id);

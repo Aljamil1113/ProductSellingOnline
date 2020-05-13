@@ -154,11 +154,30 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
 
                 var appointmentDb = db.Appointments.Where(a => a.Id == objAppointment.Appointment.Id).FirstOrDefault();
 
+                var ProductsList = (IEnumerable<Products>)(from p in db.Products
+                                                           join pa in db.ProductSelectedForAppointment
+                                                           on p.Id equals pa.ProductId
+                                                           where pa.AppointmentId == id
+                                                           select p).Include("ProductType");
+
                 appointmentDb.CustomerName = objAppointment.Appointment.CustomerName;
                 appointmentDb.CustomerEmail = objAppointment.Appointment.CustomerEmail;
                 appointmentDb.CustomerPhoneNumber = objAppointment.Appointment.CustomerPhoneNumber;
                 appointmentDb.AppointmentDate = objAppointment.Appointment.AppointmentDate;
                 appointmentDb.IsConfirmed = objAppointment.Appointment.IsConfirmed;
+
+                foreach (var prod in ProductsList)
+                {
+                    int oldQuantity = prod.Quantity;
+                    if(objAppointment.Appointment.IsConfirmed == true)
+                    {
+                        prod.Quantity = prod.Quantity - 1;
+                    }
+                    else
+                    {
+                        prod.Quantity = prod.Quantity + 1;
+                    }
+                }              
                 appointmentDb.SalesPersonId = objAppointment.Appointment.SalesPersonId;
 
                 await db.SaveChangesAsync();

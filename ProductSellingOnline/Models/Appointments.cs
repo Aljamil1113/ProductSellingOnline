@@ -25,6 +25,9 @@ namespace ProductSellingOnline.Models
         public string CustomerEmail { get; set; }
         public bool IsConfirmed { get; set; }
 
+        [Display(Name = "Total Amount")]
+        public decimal TotalAmount { get; set; }
+
         [Display(Name = "Sales Person")]
         public string SalesPersonId { get; set; }
 

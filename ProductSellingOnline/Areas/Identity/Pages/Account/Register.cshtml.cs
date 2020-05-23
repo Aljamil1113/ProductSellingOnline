@@ -126,7 +126,7 @@ namespace ProductSellingOnline.Areas.Identity.Pages.Account
                     //}
                     //else
                     //{
-                    //    await _userManager.AddToRoleAsync(user, SD.AdminUser); 
+                    //    await _userManager.AddToRoleAsync(user, SD.AdminUser);
                     //}
 
                     _logger.LogInformation("User created a new account with password.");

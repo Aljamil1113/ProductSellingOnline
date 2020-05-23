@@ -53,6 +53,7 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
                 {
                     Products prod = await db.Products.Include(p => p.ProductType).Include(s => s.SpecialTag).Where(p => p.Id == cartItem).FirstOrDefaultAsync();
                     ShoppingCartVM.Products.Add(prod);
+                    ShoppingCartVM.Appointments.TotalAmount += prod.Price;
                 }
             }
             return View(ShoppingCartVM);

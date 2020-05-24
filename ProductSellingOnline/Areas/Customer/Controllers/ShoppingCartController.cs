@@ -38,7 +38,7 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-
+            decimal sumPrice = 0;
             List<int> lstShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
 
             if(lstShoppingCart == null)
@@ -52,8 +52,9 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
                 foreach (int cartItem in lstShoppingCart)
                 {
                     Products prod = await db.Products.Include(p => p.ProductType).Include(s => s.SpecialTag).Where(p => p.Id == cartItem).FirstOrDefaultAsync();
+                    sumPrice += prod.Price;
                     ShoppingCartVM.Products.Add(prod);
-                    ShoppingCartVM.Appointments.TotalAmount += prod.Price;
+                    ViewData["TotalAmount"] = sumPrice;
                 }
             }
             return View(ShoppingCartVM);
@@ -94,13 +95,15 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
             return RedirectToAction("AppointmentDetails", "ShoppingCart", new { id = appointmentId });
         }
 
-        public IActionResult Remove(int id)
+        public async Task<IActionResult> Remove(int id)
         {
             List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
 
             if(lstCartItems.Contains(id))
             {
+                Products prod = await db.Products.Where(p => p.Id == id).FirstOrDefaultAsync();
                 lstCartItems.Remove(id);
+                ShoppingCartVM.Appointments.TotalAmount -= prod.Price;
             }
 
             HttpContext.Session.Set("ssShoppingCart", lstCartItems);

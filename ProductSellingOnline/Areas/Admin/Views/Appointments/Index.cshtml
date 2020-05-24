@@ -80,6 +80,10 @@
                 </th>
 
                 <th>
+                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().TotalAmount)
+                </th>
+
+                <th>
                     @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerPhoneNumber)
                 </th>
 
@@ -94,29 +98,32 @@
             </tr>
             @foreach (var item in Model.Appointments)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(m => item.applicationUser.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => item.CustomerName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => item.CustomerEmail)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => item.CustomerPhoneNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => item.AppointmentDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => item.IsConfirmed)
-                    </td>
-                    <td>
-                        <partial name="_TableButtonPartial" model="@item.Id" />
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.applicationUser.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CustomerEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.TotalAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CustomerPhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.AppointmentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.IsConfirmed)
+                </td>
+                <td>
+                    <partial name="_TableButtonPartial" model="@item.Id" />
+                </td>
+            </tr>
             }
         </table>
     </div>

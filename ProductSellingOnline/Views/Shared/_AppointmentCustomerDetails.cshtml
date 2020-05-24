@@ -14,11 +14,19 @@
             </div>
             @*<div class="control column is-2"></div>*@
             <div class="control column is-4">
+                <label class="label" asp-for="TotalAmount">Customer Email</label>
+            </div>
+            <div class="control column is-8">
+                <input class="input is-focused" type="text" asp-for="TotalAmount" readonly />
+            </div>
+
+            <div class="control column is-4">
                 <label class="label" asp-for="CustomerEmail">Customer Email</label>
             </div>
             <div class="control column is-8">
                 <input class="input is-focused" type="text" asp-for="CustomerEmail" readonly />
             </div>
+
         </div>
     </div>
     <div class="column is-half">

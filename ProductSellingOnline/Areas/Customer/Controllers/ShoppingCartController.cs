@@ -41,10 +41,10 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
             decimal sumPrice = 0;
             List<int> lstShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
 
-            if(lstShoppingCart == null)
-            {
-                return PartialView("~/Views/Shared/_NoCartItems.cshtml");
-            }
+            //if(lstShoppingCart == null)
+            //{
+            //    return PartialView("~/Views/Shared/_NoCartItems.cshtml");
+            //}
 
             if(lstShoppingCart.Count > 0)
             {

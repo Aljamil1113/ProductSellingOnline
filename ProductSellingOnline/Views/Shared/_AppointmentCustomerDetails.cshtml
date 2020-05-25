@@ -3,7 +3,7 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-<div class="container is-bordered is-fluid" style="height:180px; background-color:aliceblue">
+<div class="container is-bordered is-fluid" style="height:20S0px; background-color:aliceblue">
     <div class="column is-half">
         <div class="field is-horizontal">
             <div class="control column is-4">
@@ -13,12 +13,6 @@
                 <input class="input is-focused" type="text" asp-for="CustomerName" readonly />
             </div>
             @*<div class="control column is-2"></div>*@
-            <div class="control column is-4">
-                <label class="label" asp-for="TotalAmount">Customer Email</label>
-            </div>
-            <div class="control column is-8">
-                <input class="input is-focused" type="text" asp-for="TotalAmount" readonly />
-            </div>
 
             <div class="control column is-4">
                 <label class="label" asp-for="CustomerEmail">Customer Email</label>
@@ -46,4 +40,14 @@
             </div>
         </div>
     </div>
+    <div class="column is-half">
+        <div class="field is-horizontal">
+            <div class="control column is-4">
+                <label class="label" asp-for="TotalAmount">Customer Email</label>
+            </div>
+            <div class="control column is-8">
+                <input class="input is-focused" type="text" asp-for="TotalAmount" readonly />
+            </div>
+        </div>
+    </div>   
 </div> 

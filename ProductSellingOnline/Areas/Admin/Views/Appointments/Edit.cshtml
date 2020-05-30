@@ -6,7 +6,7 @@
 
 <form method="post">
     <br /><br />
-    <h2>Your Shopping Cart</h2>
+    <h2 class="title is-4">Your Shopping Cart</h2>
     <br />
     <div class="field is-horizontal">
         <div class="column is-half">
@@ -124,9 +124,6 @@
                             @Html.DisplayFor(c => item.ProductType.Name)
                         </td>
                         <td>
-                            <button type="submit" class="button is-danger" asp-action="Remove" asp-route-id="@item.Id">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
                         </td>
                     </tr>
 

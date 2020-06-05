@@ -103,31 +103,15 @@ namespace ProductSellingOnline.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    if(!await _roleManager.RoleExistsAsync(SD.SuperAdminUser))
+
+                    if (Input.IsSuperAdmin)
                     {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.SuperAdminUser));
+                        await _userManager.AddToRoleAsync(user, SD.SuperAdminUser);
                     }
-
-                    if(!await _roleManager.RoleExistsAsync(SD.AdminUser))
+                    else
                     {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.AdminUser));
+                        await _userManager.AddToRoleAsync(user, SD.Customer);
                     }
-
-                    if (!await _roleManager.RoleExistsAsync(SD.Customer))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.Customer));
-                    }
-
-                    await _userManager.AddToRoleAsync(user, SD.Customer);
-
-                    //if (Input.IsSuperAdmin)
-                    //{
-                    //    await _userManager.AddToRoleAsync(user, SD.SuperAdminUser);
-                    //}
-                    //else
-                    //{
-                    //    await _userManager.AddToRoleAsync(user, SD.AdminUser);
-                    //}
 
                     _logger.LogInformation("User created a new account with password.");
 

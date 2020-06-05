@@ -55,7 +55,10 @@ namespace ProductSellingOnline
                 options.Cookie.IsEssential = true;
             });
 
+            //DB Seed Default SuperAdminUser
+            services.AddScoped<IDbInitializer, DbInitializer>();
 
+            //API
             services.AddScoped<IProductTypesServices, ProductTypesServices>();
 
             // services.AddSession(options => {
@@ -65,7 +68,7 @@ namespace ProductSellingOnline
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDbInitializer dbInitilizer)
         {
             if (env.IsDevelopment())
             {
@@ -82,6 +85,7 @@ namespace ProductSellingOnline
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            dbInitilizer.Initializer();
             app.UseAuthentication();
             app.UseSession();
             app.UseMvc(routes =>

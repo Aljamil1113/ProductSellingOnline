@@ -60,6 +60,7 @@ namespace ProductSellingOnline
 
             //API
             services.AddScoped<IProductTypesServices, ProductTypesServices>();
+            services.AddScoped<ISpecialTagServices, SpecialTagServices>();
 
             // services.AddSession(options => {
             //     options.IdleTimeout = TimeSpan.FromMinutes(30);

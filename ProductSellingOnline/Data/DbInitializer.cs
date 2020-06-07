@@ -28,7 +28,7 @@ namespace ProductSellingOnline.Data
                 db.Database.Migrate();
             }
 
-            if (db.Roles.Any(r => r.Name == SD.SuperAdminUser)) return;
+            //if (db.Roles.Any(r => r.Name == SD.SuperAdminUser)) return;
 
             roleManager.CreateAsync(new IdentityRole(SD.AdminUser)).GetAwaiter().GetResult();
             roleManager.CreateAsync(new IdentityRole(SD.Customer)).GetAwaiter().GetResult();

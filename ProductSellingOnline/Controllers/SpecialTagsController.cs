@@ -46,7 +46,7 @@ namespace ProductSellingOnline.Controllers
             return Ok(specialTagDtos);
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(200, Type = typeof(SpecialTagDto))]

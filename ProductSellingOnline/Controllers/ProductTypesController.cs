@@ -47,7 +47,7 @@ namespace ProductSellingOnline.Controllers
           return Ok(productTypeDto);
        }
 
-        //api/ProductTypes/{id0}
+        //api/ProductTypes/{id}
         [HttpGet("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]

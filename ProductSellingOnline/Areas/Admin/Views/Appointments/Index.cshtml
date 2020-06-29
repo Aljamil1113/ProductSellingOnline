@@ -68,10 +68,6 @@
         <table class="table is-striped">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().applicationUser.FullName)
-                </th>
-
-                <th>
                     @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerName)
                 </th>
 
@@ -99,9 +95,6 @@
             @foreach (var item in Model.Appointments)
             {
             <tr>
-                <td>
-                    @Html.DisplayFor(m => item.applicationUser.FullName)
-                </td>
                 <td>
                     @Html.DisplayFor(m => item.CustomerName)
                 </td>

@@ -28,7 +28,7 @@ namespace ProductSellingOnline.Models
         [Display(Name = "Total Amount")]
         public decimal TotalAmount { get; set; }
 
-        [Display(Name = "Sales Person")]
+        [Display(Name = "Full Name")]
         public string SalesPersonId { get; set; }
 
         [ForeignKey("SalesPersonId")]

@@ -98,11 +98,14 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
                 foreach (var item in roles)
                 {
                     listRoles.Add(item.Name);
+
+                    if(await userManager.IsInRoleAsync(user, item.Name))
+                    {
+                        await userManager.RemoveFromRoleAsync(user, item.Name);
+                    }
                 }
-
-                await userManager.RemoveFromRolesAsync(user, listRoles);
                 await userManager.AddToRoleAsync(user, AdminUsersRolesVM.RoleName);
-
+                await userManager.UpdateAsync(user);
                 await db.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));

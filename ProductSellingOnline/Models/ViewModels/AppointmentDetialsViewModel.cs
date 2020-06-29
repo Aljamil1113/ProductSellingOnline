@@ -10,5 +10,6 @@ namespace ProductSellingOnline.Models.ViewModels
         public Appointments Appointment { get; set; }
         public List<ApplicationUser> SalesPerson { get; set; }
         public List<Products> Products { get; set; }
+
     }
 }

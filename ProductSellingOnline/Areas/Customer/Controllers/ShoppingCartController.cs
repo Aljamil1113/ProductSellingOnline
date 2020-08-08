@@ -41,11 +41,6 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
             decimal sumPrice = 0;
             List<int> lstShoppingCart = HttpContext.Session.Get<List<int>>("ssShoppingCart");
 
-            if (lstShoppingCart == null)
-            {
-                return StatusCode(404);
-            }
-
             if (lstShoppingCart.Count > 0)
             {
                 ShoppingCartVM.ApplicationUser = db.ApplicationUser.Where(a => a.Id == claim.Value).FirstOrDefault();

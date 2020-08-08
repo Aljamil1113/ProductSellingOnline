@@ -7,13 +7,15 @@
     <form asp-action="Edit" method="post">
         <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
         <input type="hidden" asp-for="Id" />
-        <div class="field">
-            <label asp-for="Name" class="label"></label>
-            <div class="control">
-                <input asp-for="Name" class="input" placeholder="Product Type" />
-                <span asp-validation-for="Name" class="help is-danger"> </span>
-            </div>
-        </div>
+		<div class="field is-horizontal">
+			<div class="control column is-1">
+				<label asp-for="Name" class="label"></label>
+			</div>
+			<div class="control column is-5">
+					<input asp-for="Name" class="input" placeholder="Product Type" />
+					<span asp-validation-for="Name" class="help is-danger"> </span>
+			</div>
+		</div>
 
         <div class="field is-grouped are-medium">
             <div class="control">

@@ -1,30 +1,60 @@
-﻿@model IEnumerable<Products>
+﻿@model ProductSellingOnline.Models.ViewModels.HomeProductsViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
-<div class="field is-horizontal">
-    @foreach (var product in Model)
-    {
-        <div class="column is-two-fifths">
-            <div class="card">  
-            <header class="card-header">
-            <p class="card-header-title">@product.Name</p>
-            </header>
-            <div class="card-image">
-                <figure class="image is-4by3">
-                    <img src="@product.Image">
-                </figure>
-            </div>
+	<form method="get">
+		<div style="height:`100px; background-color:aliceblue;" class="container">
+			<div class="column is-half">
+				<div class="field is-horizontal">
+					<div class="control column is-2">
+						<label class="label">Product</label>
+					</div>
+					<div class="control column is-8">
+						@Html.Editor("searchProductName", new { htmlAttributes = new { @class = "input", placeholder = "Name, Types, Tagging and etc...." } })
+					</div>
+					<div class="control column is-3">
+						<label class="label">Maximum Price</label>
+					</div>
+					<div class="control column is-5">
+						@Html.Editor("searchPrice", new { htmlAttributes = new { @class = "input", type = "number", placeholder = "Maximum Price" } })
+					</div>
+					<div class="control column is-4">
+						<button class="button is-primary" name="submit" type="submit" value="Search">
+							<i class="fas fa-search"></i>Search
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="field is-horizontal">
+			@foreach (var product in Model.Products)
+			{
+				<div class="column is-one-fifth">
+					<div class="card">
+						<header class="card-header">
+							<p class="card-header-title">@product.Name</p>
+						</header>
+						<div class="card-image">
+							<figure class="image is-one-fifth">
+								<img src="@product.Image">
+							</figure>
+						</div>
 
-            <div class="card-content">
-                <div class="content">
-                    <label style="font-size:20px; color:#a51313">@String.Format("{0:C}", product.Price)</label>
-                </div>
-            </div>
-            <footer class="card-footer">            
-                 <a asp-controller="Home" asp-action="Details" asp-route-Id="@product.Id" class="button is-success">Details View</a>              
-            </footer>
-            </div>
-        </div>       
-    }
-</div>
+						<div class="card-content">
+							<div class="content">
+								<label style="font-size:20px; color:#a51313">@String.Format("{0:C}", product.Price)</label>
+							</div>
+						</div>
+						<footer class="card-footer">
+							<a asp-controller="Home" asp-action="Details" asp-route-Id="@product.Id" class="button is-success">Details View</a>
+						</footer>
+					</div>
+				</div>
+			}
+		</div>
+
+		<div page-model="@Model.PageInfo" page-action="Index" page-classes-enabled="true"
+			 page-class="button border" page-class-normal="button is-default active"
+			 page-class-selected="button is-primary active" class="buttons"></div>
+	</form>
+	

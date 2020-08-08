@@ -47,7 +47,7 @@ namespace ProductSellingOnline
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             //Sessions
-            services.AddDistributedMemoryCache();
+            //services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(30);
@@ -57,10 +57,6 @@ namespace ProductSellingOnline
 
             //DB Seed Default SuperAdminUser
             services.AddScoped<IDbInitializer, DbInitializer>();
-
-            //API
-            services.AddScoped<IProductTypesServices, ProductTypesServices>();
-            services.AddScoped<ISpecialTagServices, SpecialTagServices>();
 
             // services.AddSession(options => {
             //     options.IdleTimeout = TimeSpan.FromMinutes(30);

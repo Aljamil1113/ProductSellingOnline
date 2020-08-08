@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using ProductSellingOnline.Data;
 using ProductSellingOnline.Extensions;
 using ProductSellingOnline.Models;
+using ProductSellingOnline.Models.ViewModels;
 
 namespace ProductSellingOnline.Areas.Customer.Controllers
 {
@@ -16,15 +18,73 @@ namespace ProductSellingOnline.Areas.Customer.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext db;
+        private int PageSize = 5;
 
         public HomeController(ApplicationDbContext _db)
         {
             db = _db;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int productPage = 1, string searchProductName=null, string searchPrice=null)
         {
-            var productList = await db.Products.Include(p => p.ProductType).Include(s => s.SpecialTag).ToListAsync();
-            return View(productList);
+            HomeProductsViewModel prodView = new HomeProductsViewModel
+            {
+                Products = new List<Products>()
+            };
+
+            StringBuilder param = new StringBuilder();
+
+            param.Append("/Products?productPage=:");
+
+            param.Append("&searchProductName=");
+            if(searchProductName != null)
+            {
+                param.Append(searchProductName);
+            }
+
+            param.Append("&searchPrice=");
+            if(searchPrice != null)
+            {
+                param.Append(searchPrice);
+            }
+
+            prodView.Products = await db.Products.Include(p => p.ProductType).Include(s => s.SpecialTag).ToListAsync();
+
+            if (searchProductName != null)
+            {
+                prodView.Products = await db.Products.Where(p => p.Name.ToLower().Contains(searchProductName.ToLower()) ||
+                p.ProductType.Name.ToLower().Contains(searchProductName.ToLower()) || 
+                p.SpecialTag.Name.ToLower().Contains(searchProductName.ToLower())).ToListAsync();
+                
+            }
+
+            if (searchPrice != null)
+            {
+                try
+                {
+                    int maxPrice = Convert.ToInt32(searchPrice);
+                    prodView.Products = await db.Products.Where(p => p.Price <= maxPrice).ToListAsync();
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
+            var count = prodView.Products.Count;
+
+            prodView.Products = prodView.Products.OrderBy(p => p.Name)
+                .Skip((productPage - 1) * PageSize)
+                .Take(PageSize).ToList();
+
+            prodView.PageInfo = new PageInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                TotalItems = count,
+                urlParam = param.ToString()
+            };
+
+            //var productList = await db.Products.Include(p => p.ProductType).Include(s => s.SpecialTag).ToListAsync();
+            return View(prodView);
         }
 
         [HttpGet]

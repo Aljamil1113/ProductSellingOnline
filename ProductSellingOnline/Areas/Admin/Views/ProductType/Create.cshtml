@@ -9,15 +9,16 @@
 
 <div class="field">
     <form asp-action="Create" method="post">
-        <div asp-validation-summary="ModelOnly" class="help is-danger"></div>    
-        <label asp-for="Name" class="label" ></label>   
-        <div class="field">
-            <div class="control">
-                <input asp-for="Name" class="input" placeholder="Product Type" />
-                <span asp-validation-for="Name" class="help is-danger"> </span>
-            </div>
-        </div>
-
+        <div asp-validation-summary="ModelOnly" class="help is-danger"></div>       
+        <div class="field is-horizontal">
+			<div class="control column is-1">
+				<label asp-for="Name" class="label"></label>
+			</div>
+				<div class="control column is-5">
+					<input asp-for="Name" class="input" placeholder="Product Type" />
+					<span asp-validation-for="Name" class="help is-danger"> </span>
+				</div>
+		</div>
         <div class="field is-grouped">
             <div class="control">
                 <input type="submit" value="Create" class="button is-primary" />

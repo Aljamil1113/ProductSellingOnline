@@ -6,30 +6,35 @@
 <h2 class="title is-4">Edit Tag</h2>
 
 <div class="field">
-    <form asp-action="Edit" method="post">
-        <div asp-validation-summary="ModelOnly" class="help is-danger"></div>
-        <input type="hidden" asp-for="Id"/>
-        <label class="label" asp-for="Name">Tag Name</label>
-        <div class="control has-icons-left has-icons-right">
-            <input class="input is-success" type="text" placeholder="Enter Tag name..." asp-for="Name">
-            <span asp-validation-for="Name" class="help is-danger"> </span>
-            <span class="icon is-small is-left">
-                <i class="fas fa-user"></i>
-            </span>
-            <span class="icon is-small is-right">
-                <i class="fas fa-check"></i>
-            </span>
-        </div>
-
-        <div class="field is-grouped">
-            <div class="control">
-                <input type="submit" value="Edit" class="button is-primary" />
-            </div>
-            <div class="control">
-                <a asp-action="Index" class="button is-light">Back to List</a>
-            </div>
-        </div>
-    </form>
+	<form asp-action="Edit" method="post">
+		<div asp-validation-summary="ModelOnly" class="help is-danger"></div>
+		<input type="hidden" asp-for="Id" />
+		<div class="field is-horizontal">
+			<div class="control column is-1">
+				<label class="label" asp-for="Name">Tag Name</label>
+			</div>
+			<div class="control column is-5">
+				<div class="control has-icons-left has-icons-right">
+					<input class="input is-success" type="text" placeholder="Enter Tag name..." asp-for="Name">
+					<span asp-validation-for="Name" class="help is-danger"> </span>
+					<span class="icon is-small is-left">
+						<i class="fas fa-user"></i>
+					</span>
+					<span class="icon is-small is-right">
+						<i class="fas fa-check"></i>
+					</span>
+				</div>
+			</div>			
+		</div>
+			<div class="field is-grouped">
+				<div class="control">
+					<input type="submit" value="Edit" class="button is-primary" />
+				</div>
+				<div class="control">
+					<a asp-action="Index" class="button is-light">Back to List</a>
+				</div>
+			</div>
+</form>
 </div>
 
 @section Scripts {

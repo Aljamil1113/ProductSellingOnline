@@ -39,7 +39,9 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products = db.Products.Include(p => p.ProductType).Include(s => s.SpecialTag);
+            //var products = db.Products.Include(p => p.ProductType).Include(s => s.SpecialTag);
+
+            var products = db.Products.FromSql("exec SelectProducts");
 
             return View(await products.ToListAsync());
         }
@@ -68,11 +70,16 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
                 var prod = await db.Products.AddAsync(ProductsVM.Products);
                 await db.SaveChangesAsync();
 
+                await db.Database.ExecuteSqlCommandAsync("exec CreateProduct {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}", ProductsVM.Products.Name, ProductsVM.Products.Price,
+                   ProductsVM.Products.Available, ProductsVM.Products.Image, ProductsVM.Products.ShadeColor, ProductsVM.Products.ProductTypeId,
+                   ProductsVM.Products.SpecialTagId, ProductsVM.Products.Quantity, ProductsVM.Products.Id);
+
+
                 //======= SAVED IMAGE ============/
                 string webRootPath = hosting.WebRootPath;
                 var files = HttpContext.Request.Form.Files;
 
-                var productsFromDb = db.Products.Find(ProductsVM.Products.Id);
+                var productsFromDb = db.Products.FromSql("exec SelectProductByID {0}", ProductsVM.Products.Id).SingleOrDefault();
 
                 if (files.Count != 0)
                 {
@@ -92,6 +99,7 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
                     System.IO.File.Copy(uploads, webRootPath + @"\" + SD.ImageFolder + @"\" + ProductsVM.Products.Id + ".png");
                     productsFromDb.Image = @"\" + SD.ImageFolder + @"\" + ProductsVM.Products.Id + ".png";
                 }
+
                 await db.SaveChangesAsync();
 
                 return RedirectToAction("Index", "Products");
@@ -101,16 +109,18 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if(id == null)
             {
                 return NotFound();
             }
 
-            ProductsVM.Products = await db.Products.Include(p => p.ProductType).Include(s => s.SpecialTag).SingleOrDefaultAsync(p => p.Id == id);
+            ProductsVM.Products = db.Products.FromSql("exec SelectProductByID {0}", id).SingleOrDefault();
 
-            if(ProductsVM.Products == null)
+                //Include(p => p.ProductType).Include(s => s.SpecialTag).SingleOrDefaultAsync(p => p.Id == id);
+
+            if (ProductsVM.Products == null)
             {
                 return NotFound();
             }
@@ -153,7 +163,7 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
                     ProductsVM.Products.Image = @"\" + SD.ImageFolder + @"\" + ProductsVM.Products.Id + extension_new;
                 }
 
-                if(ProductsVM.Products.Image != null)
+                if (ProductsVM.Products.Image != null)
                 {
                     productFromDb.Image = ProductsVM.Products.Image;
                 }
@@ -161,20 +171,23 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
                 productFromDb.Name = ProductsVM.Products.Name;
                 productFromDb.Price = ProductsVM.Products.Price;
                 productFromDb.Quantity = ProductsVM.Products.Quantity;
-                if(ProductsVM.Products.Quantity <= 0)
+                if (ProductsVM.Products.Quantity <= 0)
                 {
                     productFromDb.Available = false;
                 }
                 else
                 {
                     productFromDb.Available = true;
-                }              
+                }
                 productFromDb.ProductTypeId = ProductsVM.Products.ProductTypeId;
                 productFromDb.SpecialTagId = ProductsVM.Products.SpecialTagId;
                 productFromDb.ShadeColor = ProductsVM.Products.ShadeColor;
 
                 //db.Products.Update(productFromDb);
-                await db.SaveChangesAsync();
+                //await db.SaveChangesAsync();
+                await db.Database.ExecuteSqlCommandAsync("exec UpdateProduct {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}", productFromDb.Id, productFromDb.Name, 
+                    productFromDb.Price, productFromDb.Available, productFromDb.Image, productFromDb.ShadeColor, productFromDb.ProductTypeId, productFromDb.SpecialTagId, 
+                    productFromDb.Quantity);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -191,7 +204,9 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            ProductsVM.Products =  db.Products.Include(pt => pt.ProductType).Include(s => s.SpecialTag).SingleOrDefault((p => p.Id == id));
+            ProductsVM.Products = db.Products.FromSql("exec SelectProductByID {0}", id).SingleOrDefault();
+
+                //Include(pt => pt.ProductType).Include(s => s.SpecialTag).SingleOrDefault((p => p.Id == id));
 
             if (ProductsVM.Products == null)
             {
@@ -206,9 +221,11 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
               string webRootPath = hosting.WebRootPath;
-              Products prod = await db.Products.FindAsync(id);
+              Products prod = db.Products.FromSql("exec SelectProductByID {0}", id).FirstOrDefault();
 
-              if(prod == null)
+                //FindAsync(id);
+
+            if (prod == null)
               {
                 return NotFound();
               }
@@ -223,8 +240,9 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
                     System.IO.File.Delete(Path.Combine(uploads, prod.Id + extension));
                 }
 
-                db.Products.Remove(prod);
-                await db.SaveChangesAsync();
+                //db.Products.Remove(prod);
+                //await db.SaveChangesAsync();
+                await db.Database.ExecuteSqlCommandAsync("exec DeleteProduct {0}", prod.Id);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -240,7 +258,9 @@ namespace ProductSellingOnline.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            ProductsVM.Products =  db.Products.Include(pt => pt.ProductType).Include(s => s.SpecialTag).SingleOrDefault(p => p.Id == id);
+            ProductsVM.Products = db.Products.FromSql("exec SelectProductByID {0}", id).SingleOrDefault();
+                
+                //db.Products.Include(pt => pt.ProductType).Include(s => s.SpecialTag).SingleOrDefault(p => p.Id == id);
 
             if (ProductsVM.Products == null)
             {
